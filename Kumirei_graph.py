@@ -8,35 +8,6 @@ Created on Tue Jun 11 19:29:27 2019
 
 import networkx as nx
 from matplotlib import pyplot as plt
-import sys
-reload(sys)
-sys.setdefaultencoding('utf8')
-
-keywords = ["孤独",
-"雨",
-"雪",
-"初晴",
-"晚星",
-"落日",
-"新月",
-"云",
-"夏",
-"冬",
-"樱",
-"手",
-"发丝",
-"山",
-"海",
-"酒",
-"乐声",
-"小号",
-"侧脸",
-"怀抱",
-"心跳",
-"双眼"
-]
-print len(keywords)
-#keywords = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v']
 
 options = {'node_color': '#8fb2ea',
            'node_size': 1200,
@@ -59,14 +30,11 @@ def create_graph():
     G = nx.DiGraph()
     G.add_nodes_from(range(1,22))
     for i in range(1, 22):
+        G.add_edge(i, i % 21 + 1)
         G.add_edge(i, (i+1) % 21 + 1)
         G.add_edge(i, (i+2) % 21 + 1)
         G.add_edge(i, (i+3) % 21 + 1)
-        G.add_edge(i, (i+4) % 21 + 1)
     G.add_node(0)
-    
-    mapping = dict(zip(range(22),keywords))
-    G = nx.relabel_nodes(G, mapping)
     return G
 
 
@@ -75,9 +43,9 @@ def plot_graph(G):
     shells and plot the graph.
     """
     plt.figure(figsize=(9,9))
-    nx.draw_shell(G, nlist=[keywords[0], keywords[1:8], keywords[8:22]], **options)
+    nx.draw_shell(G, nlist=[[0], range(1,8), range(8,22)], **options)
+    plt.savefig("Kumirei_graph.eps")
     plt.show()
-#    plt.savefig("Kumirei_graph.png")
 
 
 def main():
